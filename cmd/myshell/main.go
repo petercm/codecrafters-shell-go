@@ -8,16 +8,16 @@ import (
 )
 
 func main() {
-	// Uncomment this block to pass the first stage
-	fmt.Fprint(os.Stdout, "$ ")
-
+	reader := bufio.NewReader(os.Stdin)
 	// Wait for user input
-	input, error := bufio.NewReader(os.Stdin).ReadString('\n')
-	if error != nil {
-		panic("couldnt read from stdin")
+	for {
+		fmt.Fprint(os.Stdout, "$ ")
+		input, error := reader.ReadString('\n')
+		if error != nil {
+			panic("couldnt read from stdin")
+		}
+		input = strings.TrimSuffix(input, "\n")
+		fmt.Printf("%s: command not found\n", input)
 	}
-
-	input = strings.TrimSuffix(input, "\n")
-	fmt.Printf("%s: command not found\n", input)
 
 }
