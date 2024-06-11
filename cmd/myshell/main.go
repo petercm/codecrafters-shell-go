@@ -4,26 +4,36 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
 
+func getBuiltins() []string {
+	return []string{"echo", "exit", "type"}
+}
+
 func execCmd(inputTokens []string) {
-	switch inputTokens[0] {
+	cmd := inputTokens[0]
+	switch cmd {
 	case "echo":
 		fmt.Println(strings.Join(inputTokens[1:], " "))
 	case "exit":
 		exitCode := 0
 		if len(inputTokens) > 1 {
 			exitCode, _ = strconv.Atoi(inputTokens[1])
-			// if err != nil {
-			// 	exitCode = 0
-			// }
 		}
 
 		os.Exit(exitCode)
+	case "type":
+		typeOption := inputTokens[1]
+		if slices.Contains(getBuiltins(), typeOption) {
+			fmt.Printf("%s is a shell builtin\n", typeOption)
+		} else {
+			fmt.Printf("%s: not found\n", typeOption)
+		}
 	default:
-		fmt.Printf("%s: command not found\n", inputTokens[0])
+		fmt.Printf("%s: command not found\n", cmd)
 	}
 }
 
