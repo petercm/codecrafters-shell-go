@@ -40,7 +40,11 @@ func execCmd(inputTokens []string) {
 		dir, _ := os.Getwd()
 		fmt.Println(dir)
 	case "cd":
-		err := os.Chdir(arguments[0])
+		path := arguments[0]
+		if path == "~" {
+			path = os.Getenv("HOME")
+		}
+		err := os.Chdir(path)
 		if err != nil {
 			fmt.Printf("cd: %s: No such file or directory\n", arguments[0])
 		}
