@@ -11,7 +11,7 @@ import (
 )
 
 func getBuiltins() []string {
-	return []string{"echo", "exit", "type"}
+	return []string{"echo", "exit", "type", "pwd"}
 }
 
 func execCmd(inputTokens []string) {
@@ -35,6 +35,9 @@ func execCmd(inputTokens []string) {
 		} else {
 			fmt.Printf("%s: not found\n", typeOption)
 		}
+	case "pwd":
+		dir, _ := os.Getwd()
+		fmt.Println(dir)
 	default:
 		path, err := exec.LookPath(cmd)
 		if err != nil {
